@@ -21,7 +21,7 @@ void loop()
 void blink()
 {
 	unsigned long m_mid = millis();
-	if(m_mid - tid > 30)
+	if(m_mid - tid > 200)
 	{
 		state = !state;
 		teller++;
