@@ -7,8 +7,8 @@ const int encoderPinB = 9;  // Encoder pin B
 // Variables for encoder
 volatile long encoderCount = 0;
 
-// Number of pulses per revolution (depends on the encoder specifications)
-const int pulsesPerRevolution = 500;  // Example value, replace with your encoder's actual value
+// Number of pulses per revolution
+const int pulsesPerRevolution = 500; 
 
 void setup() {
   // Initialize motor control pins
@@ -28,7 +28,7 @@ void setup() {
 }
 
 void loop() {
-  // Example to rotate motor for testing
+  // Example to rotate motor for testing 
   rotateMotor(30, true);  // Rotate 30 revolutions CW
   delay(3000);            // Wait for 3 seconds
   rotateMotor(30, false); // Rotate 30 revolutions CCW
@@ -62,8 +62,8 @@ void rotateMotor(int revolutions, bool direction) {
   while (abs(encoderCount) < targetCount) {
     setMotorSpeed(255);  // Full speed
   }
-  
-  // Stop the motor
+   
+  // Stop the motor 
   setMotorSpeed(0);
 }
 
@@ -73,7 +73,6 @@ void encoderISR() {
   int a = digitalRead(encoderPinA);
   int b = digitalRead(encoderPinB); 
 
-  
   // Determine the direction of rotation and update the count
   if (a == b) {
     encoderCount++;

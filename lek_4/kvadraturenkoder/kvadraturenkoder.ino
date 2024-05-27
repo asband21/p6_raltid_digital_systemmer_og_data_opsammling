@@ -1,8 +1,8 @@
-int p1 = 12;
-int p2 = 3;
+int p1 = 9;
+int p2 = 2;
 
 //int re_pos = 10000;
-int re_pos = 0;
+int re_pos = 12;
 
 //char index = 0;
 byte index = 0;
