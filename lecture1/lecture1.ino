@@ -17,7 +17,7 @@ int a = 1;
 void setup() {
 	// put your setup code here, to run once:
 	Serial.begin(115200);
-	pinMode(b0, OUTPUT);
+	//pinMode(b0, OUTPUT);
 	pinMode(b1, OUTPUT);
 	pinMode(b2, OUTPUT);
 	pinMode(b3, OUTPUT);
@@ -55,5 +55,5 @@ void loop() {
 	digitalWrite(b8, a & outputValue);
 	a = a * 2;
 
-	delay(1);
+	delay(5);
 }
