@@ -28,11 +28,16 @@ void consumer(){
   int ii; 
   int lostMsgSinceLastCall; 
   int errCode;
- while(true){
-    errCode = k_receive(msgQ1,&ii,0, &lostMsgSinceLastCall); 
+ while(true){ 
+    // -1 == Never wants to wait for data
+    errCode = k_receive(msgQ1,&ii,-1, &lostMsgSinceLastCall); 
 
-    k_wait(mutexSem, 0); { 
-      Serial.println(ii);
+    k_wait(mutexSem, 0); {  
+      Serial.print("Lost Msg: ");
+      Serial.print(lostMsgSinceLastCall);  
+      Serial.print(" |  Run count: "); 
+      Serial.println(ii); 
+      
     }
     k_signal(mutexSem);
   }
