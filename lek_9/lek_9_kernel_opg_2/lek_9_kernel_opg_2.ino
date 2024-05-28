@@ -1,6 +1,5 @@
 #include "./krnl.h"
 
-#define BUGPRINT(x) k_wait(mutexSem, 0), Serial.println(x), k_signal(mutexSem)
 #define  STK 150
 #define NRELM 10 
 unsigned char taskStak_1[STK], taskStak_2[STK]; 
