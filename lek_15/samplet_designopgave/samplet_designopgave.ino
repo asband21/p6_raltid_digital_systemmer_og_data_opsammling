@@ -33,28 +33,28 @@ int lastEncoderBState = LOW;
 // Function to read encoder
 //måske interropt?
 void readEncoder() {
-  TickType_t xLastWakeTime = xTaskGetTickCount();
-  
-  for(;;) { 
-  int encoderAState = digitalRead(ENCODER_A_PIN);
-	int encoderBState = digitalRead(ENCODER_B_PIN);
-    
-	// Checking if encoder is standing still
-	if (encoderAState != lastEncoderAState) {
-		if (encoderBState == HIGH) {
-			encoderCount++;
-		} else {
-			encoderCount--;
+	TickType_t xLastWakeTime = xTaskGetTickCount();
+
+	for(;;) { 
+		int encoderAState = digitalRead(ENCODER_A_PIN);
+		int encoderBState = digitalRead(ENCODER_B_PIN);
+
+		// Checking if encoder is standing still
+		if (encoderAState != lastEncoderAState) {
+			if (encoderBState == HIGH) {
+				encoderCount++;
+			} else {
+				encoderCount--;
+			}
+			lastEncoderAState = encoderAState;
 		}
-		lastEncoderAState = encoderAState;
+		vTaskDelayUntil(&xLastWakeTime,pdMS_TO_TICKS(5)); // Delay to reduce CPU load 
 	}
-	vTaskDelayUntil(&xLastWakeTime,pdMS_TO_TICKS(5)); // Delay to reduce CPU load 
-  }
 }
 
 // Task to read speed reference from potentiometer
 void readPotentiometer(void *pvParameters) {
-  TickType_t xLastWakeTime = xTaskGetTickCount();
+	TickType_t xLastWakeTime = xTaskGetTickCount();
 	for (;;) {
 		int potValue = analogRead(POTENTIOMETER_PIN);
 		motorSetpoint =  map(potValue, 0, 1023, 0, 255); // Map potentiometer value to target speed
@@ -65,7 +65,7 @@ void readPotentiometer(void *pvParameters) {
 // Task to read controller parameters from serial input
 void readSerialParams(void *pvParameters) {
 
-  TickType_t xLastWakeTime = xTaskGetTickCount();
+	TickType_t xLastWakeTime = xTaskGetTickCount();
 	for (;;) {
 		if (Serial.available() > 0) {
 			String input = Serial.readStringUntil('\n');
@@ -93,10 +93,10 @@ void readSerialParams(void *pvParameters) {
 
 // Task to control motor speed using PID
 void controlMotorSpeed(void *pvParameters) {
-  TickType_t xLastWakeTime = xTaskGetTickCount();
+	TickType_t xLastWakeTime = xTaskGetTickCount();
 	for (;;) {
 		if (xSemaphoreTake(encoderSemaphore, portMAX_DELAY) == pdTRUE) {
-	 		//readEncoder();
+			//readEncoder();
 			motorSpeed = (encoderCount - encoderCountOlde) * (10.0 / 500.0); // Calculate motor speed based on encoder counts in rpm
 			encoderCountOlde = encoderCount;
 			xSemaphoreGive(encoderSemaphore);
