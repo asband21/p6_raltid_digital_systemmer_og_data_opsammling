@@ -34,9 +34,13 @@ void bbb(void *pvParameters)
 void setup()
 {
 	Serial.begin(115200);
+  Serial.println("start");
 	printSemaphore = xSemaphoreCreateMutex();
-	xTaskCreate(aaa, "aaa" , 1000, NULL, 1, NULL); 
-	xTaskCreate(bbb, "bbb" , 1000, NULL, 1, NULL); 
+  Serial.println("sem");
+	xTaskCreate(aaa, "aaa" , 100, NULL, 1, NULL); 
+  Serial.println("1");
+	xTaskCreate(bbb, "bbb" , 100, NULL, 1, NULL); 
+  Serial.println("2");
 	vTaskStartScheduler();
 }
 void loop()
