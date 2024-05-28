@@ -33,9 +33,12 @@ int lastEncoderBState = LOW;
 // Function to read encoder
 //måske interropt?
 void readEncoder() {
-	int encoderAState = digitalRead(ENCODER_A_PIN);
+  TickType_t xLastWakeTime = xTaskGetTickCount();
+  
+  for(;;) { 
+  int encoderAState = digitalRead(ENCODER_A_PIN);
 	int encoderBState = digitalRead(ENCODER_B_PIN);
-
+    
 	// Checking if encoder is standing still
 	if (encoderAState != lastEncoderAState) {
 		if (encoderBState == HIGH) {
@@ -45,20 +48,24 @@ void readEncoder() {
 		}
 		lastEncoderAState = encoderAState;
 	}
-	vTaskDelayUntil(pdMS_TO_TICKS(5)); // Delay to reduce CPU load
+	vTaskDelayUntil(&xLastWakeTime,pdMS_TO_TICKS(5)); // Delay to reduce CPU load 
+  }
 }
 
 // Task to read speed reference from potentiometer
 void readPotentiometer(void *pvParameters) {
+  TickType_t xLastWakeTime = xTaskGetTickCount();
 	for (;;) {
 		int potValue = analogRead(POTENTIOMETER_PIN);
 		motorSetpoint =  map(potValue, 0, 1023, 0, 255); // Map potentiometer value to target speed
-		vTaskDelayUntil(pdMS_TO_TICKS(100)); // Delay to reduce CPU load 
+		vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(100)); // Delay to reduce CPU load 
 	}
 }
 
 // Task to read controller parameters from serial input
 void readSerialParams(void *pvParameters) {
+
+  TickType_t xLastWakeTime = xTaskGetTickCount();
 	for (;;) {
 		if (Serial.available() > 0) {
 			String input = Serial.readStringUntil('\n');
@@ -80,13 +87,13 @@ void readSerialParams(void *pvParameters) {
 				}
 			}
 		}
-		vTaskDelay(pdMS_TO_TICKS(100)); // Delay to reduce CPU load
-		//vTaskDelayUntil() og er 100 ikke er meget? 
+		vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(100)); // Delay to reduce CPU load
 	}
 }
 
 // Task to control motor speed using PID
 void controlMotorSpeed(void *pvParameters) {
+  TickType_t xLastWakeTime = xTaskGetTickCount();
 	for (;;) {
 		if (xSemaphoreTake(encoderSemaphore, portMAX_DELAY) == pdTRUE) {
 	 		//readEncoder();
@@ -98,7 +105,7 @@ void controlMotorSpeed(void *pvParameters) {
 		analogWrite(PWM_PIN, abs(motorOutput)); // Write PWM signal to motor 
 							// Motor needs DIR_PIN to slow down
 		digitalWrite(DIR_PIN, (motorOutput >= 0) ? HIGH : LOW); // Determine direction based on PID output
-		vTaskDelayUntil(pdMS_TO_TICKS(100)); // Delay to reduce CPU load
+		vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(100)); // Delay to reduce CPU load
 	}
 }
 
@@ -120,10 +127,10 @@ void setup() {
 	motorPID.SetSampleTime(100);
 
 	// Create tasks
-	xTaskCreate(readEncoder, "encoder" , 1000, NULL, 1, NULL);   //1, NULL);
-	xTaskCreate(controlMotorSpeed, "MotorControlTask" , 1000, NULL, 2, NULL);   //1, NULL);
-	xTaskCreate(readPotentiometer, "PotentiometerTask", 1000, NULL, 3, NULL);  //1, NULL);
-	xTaskCreate(readSerialParams,  "SerialParamsTask" , 1000, NULL, 4, NULL);    //2, NULL);
+	xTaskCreate(readEncoder, "encoder" , 1000, NULL, 1, NULL); 
+	xTaskCreate(controlMotorSpeed, "MotorControlTask" , 1000, NULL, 2, NULL);   
+	xTaskCreate(readPotentiometer, "PotentiometerTask", 1000, NULL, 3, NULL);  
+	xTaskCreate(readSerialParams,  "SerialParamsTask" , 1000, NULL, 4, NULL);    
 
 	// Start the scheduler
 	vTaskStartScheduler();
