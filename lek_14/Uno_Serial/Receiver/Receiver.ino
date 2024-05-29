@@ -13,6 +13,8 @@ void setup() {
 void loop() {
 readSerial();
 commandExecute();
+delay(1000);
+
 }
 
 
@@ -27,18 +29,16 @@ void readSerial() {
             incomingByte = Serial.read();
             command[i] = incomingByte; 
             Serial.flush();
+            
         }
       }
     }
     
-    // Print the received byte to the Serial Monitor
-  
-    Serial.print("Received: ");
-    for(int i = 0; i < 4; i++){
+      for(int i = 0; i < 4; i++){
         Serial.print(command[i]);
  
           }
-    Serial.println();
+    Serial.println();  
   
  }
    
