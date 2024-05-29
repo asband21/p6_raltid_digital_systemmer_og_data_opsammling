@@ -36,8 +36,9 @@ void loop() {
 	//byte outputValue = map(storedSin, 0, 1023, 0, 255);
 	byte outputValue = storedSin;
 	a = 1;
-	Serial.println(storedSin);
+	Serial.println(storedSin); 
 
+  a = a * 2;
 	digitalWrite(b1, a & outputValue );
 	a = a * 2;
 	digitalWrite(b2, a & outputValue );
@@ -53,7 +54,6 @@ void loop() {
 	digitalWrite(b7, a & outputValue);
 	a = a * 2;
 	digitalWrite(b8, a & outputValue);
-	a = a * 2;
-
+	
 	delay(5);
 }
