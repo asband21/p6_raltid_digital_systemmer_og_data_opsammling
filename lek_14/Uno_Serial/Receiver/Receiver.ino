@@ -6,14 +6,14 @@ char incomingByte = 0;
 char command[4];
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(750);
   pinMode(13, OUTPUT); // Set pin 13 as output
 }
 
 void loop() {
 readSerial();
 commandExecute();
-delay(1000);
+delay(100);
 
 }
 
@@ -28,17 +28,28 @@ void readSerial() {
         for(int i = 1; i < 4; i++){
             incomingByte = Serial.read();
             command[i] = incomingByte; 
-            Serial.flush();
+            //Serial.flush();
             
         }
       }
-    }
-    
-      for(int i = 0; i < 4; i++){
-        Serial.print(command[i]);
+    Serial.print("R");
+    for(int i = 1; i < 4; i++){
+      Serial.print(command[i]);
  
-          }
+    }
     Serial.println();  
+    while (Serial.available() > 0){
+      Serial.read();
+    } 
+   /* Serial.print("R");
+    for(int i = 1; i < 4; i++){
+      Serial.print(command[i]);
+ 
+    }
+    Serial.println();  
+    while (Serial.available() > 0){
+      Serial.read();*/
+  }
   
  }
    
