@@ -34,9 +34,8 @@ void setup() {
   Serial.begin(115200);  
    
 
-
   // change the if statment:  Ture == w.semaphor, false it is without
-  if (true) {  
+  if (false) {  
     k_init(2, 1, 0); 
     pTask_1_safe = k_crt_task(Task_1_safe, 1, taskStak_1_safe, STK); 
     pTask_2_safe = k_crt_task(Task_2_safe, 1, taskStak_2_safe, STK);
