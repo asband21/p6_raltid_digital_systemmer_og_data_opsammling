@@ -5,7 +5,7 @@ const int senderID = 1;
 bool ledState = false; // Variable to keep track of the LED state
 char ResponseByte;
 void setup() {
-  Serial.begin(750);
+  Serial.begin(115200);
 }
 
 void loop() {

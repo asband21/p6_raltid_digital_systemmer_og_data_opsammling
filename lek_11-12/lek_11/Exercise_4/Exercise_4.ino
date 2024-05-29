@@ -56,7 +56,7 @@ void task2(void *pvParameters) {
 void setup() {
     Serial.begin(115200);
     xTaskCreate(task1, "Task1", 100, NULL, 1, NULL);
-    xTaskCreate(task2, "Task2", 100, NULL, 1, NULL);
+    xTaskCreate(task2, "Task2", 100, NULL, 2, NULL);
     vTaskStartScheduler();
 }
 

@@ -138,11 +138,15 @@ void setup() {
     // Compute relative difference between results from multiplication and conversion
     double relative_difference = abs(execution_time_multiply - execution_time_convert) / execution_time_convert;
 
-    
+
     Serial.println("Mean Relative Error between da and mda:");
     Serial.println(mean_relative_error);
     Serial.println("Mean Relative Error between da2 and mda2:");
     Serial.println(mean_relative_error_squared);
+    Serial.println("Execution time for multiplication");
+    Serial.println(execution_time_multiply);
+    Serial.println("Execution time for conversion");
+    Serial.println(execution_time_convert);
     Serial.println("Relative Difference between Multiplication and Conversion:");
     Serial.println(relative_difference); 
     

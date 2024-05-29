@@ -10,7 +10,7 @@ unsigned char taskStak[STK];
 struct k_t *pTask_2;
 unsigned char taskStak_2[STK];
 
-void t2()
+void t1()
 {
 	while(1)
 	{ // your tas
@@ -26,7 +26,7 @@ void t2()
 	while(1)
 	{ // your tas
 		k_sleep (300); 
-		Serial.println("hore unge");
+		Serial.println("task 2");
 	}
 }
 
