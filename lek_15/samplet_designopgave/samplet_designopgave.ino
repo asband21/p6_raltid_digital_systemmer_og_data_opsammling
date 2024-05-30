@@ -97,7 +97,7 @@ void controlMotorSpeed(void *pvParameters) {
 	for (;;) {
 		if (xSemaphoreTake(encoderSemaphore, portMAX_DELAY) == pdTRUE) {
 			//readEncoder();
-			motorSpeed = (encoderCount - encoderCountOlde) * (10.0 / 500.0); // Calculate motor speed based on encoder counts in rpm
+			motorSpeed = (encoderCount - encoderCountOlde); // Calculate motor speed based on encoder counts in rpm
 			encoderCountOlde = encoderCount;
 			xSemaphoreGive(encoderSemaphore);
 		}
