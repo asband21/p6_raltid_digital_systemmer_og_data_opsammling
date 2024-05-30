@@ -40,7 +40,7 @@ void readEncoder() {
 		int encoderBState = digitalRead(ENCODER_B_PIN);
 
 		// Checking if encoder is standing still
-		if (encoderAState != lastEncoderAState) {
+		if (encoderAState != lastEncoderAState && encoderAState == HIGH) {
 			if (encoderBState == HIGH) {
 				encoderCount++;
 			} else {
