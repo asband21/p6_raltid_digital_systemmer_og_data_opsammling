@@ -6,7 +6,7 @@ char incomingByte = 0;
 char command[4];
 
 void setup() {
-  Serial.begin(750);
+  Serial.begin(115200);
   pinMode(13, OUTPUT); // Set pin 13 as output
 }
 
